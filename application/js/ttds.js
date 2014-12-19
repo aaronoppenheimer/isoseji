@@ -3,7 +3,7 @@
 //
 // ao 15dec14
 
-var isosejiApp = angular.module('isosejiApp', ['ttdlist']);
+var isosejiApp = angular.module('isosejiApp', ['ttdList']);
 
 isosejiApp.controller('TtdController', ['$scope', 'ttdList', function($scope, ttdList) {
 

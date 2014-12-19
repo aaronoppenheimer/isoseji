@@ -5,15 +5,16 @@
 //
 
     
-angular.module('ttdlist', [])
-.factory('ttdList', function() {
+angular.module('ttdList', [])
+.service('ttdList', function() {
 
-    var ttds=[];
+    this.ttds=[];
+
     for (var i=1; i<=10; i++) {
-        ttds.push({id: i, title: 'test '+i, parent:0, isOpen:false});
+        this.ttds.push({id: i, title: 'test '+i, parent:0, isOpen:false});
     }
 
-    var submit = function(newttd) {
+    this.submit = function(newttd) {
 
         function reorder(t, p) {
             var newttds = [];
@@ -34,10 +35,4 @@ angular.module('ttdlist', [])
         }
     };
     
-
-    return {
-                ttds: ttds, 
-                submit: submit
-            };
-
 });
