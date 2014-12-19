@@ -5,8 +5,8 @@
 //
 
     
-angular.module('ttdList', [])
-.service('ttdList', function() {
+angular.module('ttdList', ['underscore'])
+.service('ttdList', function(_) {
 
     this.ttds=[];
 

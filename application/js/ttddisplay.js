@@ -4,9 +4,9 @@
 // ao 18dec14
 //
 
-isosejiApp.controller('TtdDisplayController', [ '$scope', function($scope) {
+isosejiApp.controller('TtdDisplayController', [ function() {
 
-    $scope.toggle = function(ttd) {
+    this.toggle = function(ttd) {
         ttd.isOpen=!ttd.isOpen;
     };
 

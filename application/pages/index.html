@@ -49,15 +49,15 @@
                         </div>
                     </div>
 
-                    <div ng-repeat="ttd in ttds" ng-controller="TtdDisplayController"> 
+                    <div ng-repeat="ttd in ttds" ng-controller="TtdDisplayController as dispctl"> 
                         <div class="row" style="padding-top: 5px; padding-bottom: 5px;">
                             <div class="col-md-12" ng-if="ttd.isOpen==false">
-                                <span class="glyphicon glyphicon-plus" aria-hidden="true" ng-click="toggle(ttd)"></span>{{ ttd.title }}
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true" ng-click="dispctl.toggle(ttd)"></span>{{ ttd.title }}
                             </div>
                             <div class="col-md-12" style="border-style:dotted; border-width:1px" ng-if="ttd.isOpen==true">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <span class="glyphicon glyphicon-minus" aria-hidden="true" ng-click="toggle(ttd)"></span>{{ ttd.title }}
+                                        <span class="glyphicon glyphicon-minus" aria-hidden="true" ng-click="dispctl.toggle(ttd)"></span>{{ ttd.title }}
                                     </div>
                                 </div>
                                 <div class="row">
@@ -82,6 +82,8 @@
         <script src = "js/ttds.js"></script>
         <script src = "js/ttdlist.js"></script>
         <script src = "js/ttddisplay.js"></script>
+        <script src = "bower_components/underscore/underscore.js"></script>
+        <script src = "js/usservice.js"></script>
         
     </body>
 </html>
