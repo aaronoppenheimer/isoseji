@@ -51,16 +51,20 @@ angular.module('ttdList', ['underscore'])
     // take a ttd and migrate it to a new parent. If it has an old parent, remove it from
     // its list of children.
     this.moveParent = function(ttd, newparent) {
-        if (ttd.parent >= 0 ) {
-            // remove from the list
-            this.ttds[ttd.parent] = _.without(this.ttds[ttd.parent], ttd);
-        }
-        // move it to a new parent
-        ttd.parent = newparent;
-        if (_.isUndefined(this.ttds[newparent])) {
-            this.ttds[newparent]=[ttd];
+        if (newparent == ttd.id) {
+            return;
         } else {
-            this.ttds[newparent].push(ttd);
+            if (ttd.parent >= 0 ) {
+                // remove from the list
+                this.ttds[ttd.parent] = _.without(this.ttds[ttd.parent], ttd);
+            }
+            // move it to a new parent
+            ttd.parent = newparent;
+            if (_.isUndefined(this.ttds[newparent])) {
+                this.ttds[newparent]=[ttd];
+            } else {
+                this.ttds[newparent].push(ttd);
+            }
         }
     }
 
