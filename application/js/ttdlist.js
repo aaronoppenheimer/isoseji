@@ -43,16 +43,17 @@ angular.module('ttdList', ['underscore'])
     this.submit = function(newttd) {
         if (newttd) {
             var newobj={id:this.ttdcount+1, title:newttd, parent:-1};
-            this.move(newobj, Math.round(Math.random()*10));
+            this.moveParent(newobj, Math.round(Math.random()*10));
             this.ttdcount += 1;
         }
     };
     
     // take a ttd and migrate it to a new parent. If it has an old parent, remove it from
     // its list of children.
-    this.move = function(ttd, newparent) {
+    this.moveParent = function(ttd, newparent) {
         if (ttd.parent >= 0 ) {
-            // do something
+            // remove from the list
+            this.ttds[ttd.parent] = _.without(this.ttds[ttd.parent], ttd);
         }
         // move it to a new parent
         ttd.parent = newparent;
@@ -62,6 +63,6 @@ angular.module('ttdList', ['underscore'])
             this.ttds[newparent].push(ttd);
         }
     }
-    
+
    this.initialize();
 });

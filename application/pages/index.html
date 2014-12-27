@@ -14,6 +14,9 @@
         <!-- Angular.js -->
         <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
 
+        <!-- angular-x-editable -->
+        <link href="/lib/bower_components/angular-xeditable/dist/css/xeditable.css" rel="stylesheet">
+
         <!-- local css -->
         <link href="/css/iso.css" rel="stylesheet">
         
@@ -43,19 +46,22 @@
                 <div class="inner-container" ng-controller="TtdController">
                     <div class="row" style="padding-top: 5px; padding-bottom: 5px;">
                         <div class="col-md-12">
-                            <form novalidate ng-submit="submit()">
+                            <form novalidate ng-submit="submitNewTtd()">
                                 Thing: <input type="text" ng-model="newttd" placeholder="What needs to be done?" name="newttd">
                             </form>
                         </div>
                     </div>
                     
                     <table class="table table-striped" >
-                        <tr ng-repeat="ttd in ttds" ng-controller="TtdDisplayController as dispctl"> 
+                        <tr ng-repeat="ttd in ttds" ng-controller="TtdDisplayController as dispctl" ng-init="dispctl.curParent=ttd.parent"> 
                             <td ng-if="dispctl.isSelected(ttd)==false">
                                 <span class="glyphicon glyphicon-plus" aria-hidden="true" ng-click="dispctl.toggle(ttd)"></span>{{ ttd.title }}
                             </td>
                             <td ng-if="dispctl.isSelected(ttd)==true">
-                                <span class="glyphicon glyphicon-minus" aria-hidden="true" ng-click="dispctl.toggle(ttd)"></span>{{ ttd.title }} (id:{{ttd.id}}, p:{{ttd.parent}})
+                                <span class="glyphicon glyphicon-minus" aria-hidden="true" ng-click="dispctl.toggle(ttd)"></span>
+                                    <a href="#" editable-text="ttd.title">{{ ttd.title || "empty" }}</a>
+                                    <a href="#" editable-number="dispctl.curParent" onaftersave="dispctl.updateParent(ttd)">{{ ttd.parent }}</a>
+                                    (id:{{ttd.id}}, p:{{ttd.parent}})
                             </td>
                         </tr>
                     </table>
@@ -74,6 +80,7 @@
         <script src = "js/ttdlist.js"></script>
         <script src = "js/ttddisplay.js"></script>
         <script src = "/lib/bower_components/underscore/underscore.js"></script>
+        <script src = "/lib/bower_components/angular-xeditable/dist/js/xeditable.js"></script>
         <script src = "js/usservice.js"></script>
         <script src = "/lib/js/ui-bootstrap-0.12.0.js"></script>
         
