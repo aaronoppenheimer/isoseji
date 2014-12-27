@@ -21,6 +21,14 @@ isosejiApp.controller('TtdController', ['$scope', 'ttdList', function($scope, tt
     $scope.updateList = function() {
         $scope.ttds = ttdList.getttds();    
     };
+
+    $scope.handleDrop = function(item, bin) {
+        itemid = item.substring(4);
+        newparent = bin.substring(4);
+        ttdList.dragDrop(itemid, newparent);
+        $scope.ttds = ttdList.getttds();    
+    }    
+    
 }]);
 
 isosejiApp.run(function(editableOptions) {

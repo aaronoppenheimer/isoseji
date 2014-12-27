@@ -68,5 +68,12 @@ angular.module('ttdList', ['underscore'])
         }
     }
 
+    // handle drag and drop. Find the ttd with the right item id, and make it's parent the new parent
+    this.dragDrop = function(itemid, newparent) {
+        linearlist = this.getttds(); // ew, don't recalculate every time.
+        ttd = _.find(linearlist, function(t) { return t[0].id == itemid; });
+        this.moveParent(ttd[0], newparent);
+    }
+    
    this.initialize();
 });
