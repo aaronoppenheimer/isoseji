@@ -3,9 +3,11 @@
 //
 // ao 15dec14
 
-var isosejiApp = angular.module('isosejiApp', ['ttdList', 'ui.bootstrap', 'xeditable']);
+var isosejiApp = angular.module('isosejiApp', ['ttdList', 'ui.bootstrap', 'xeditable', 'underscore']);
 
 isosejiApp.controller('TtdController', ['$scope', 'ttdList', function($scope, ttdList) {
+
+    $scope._ = _;
 
     $scope.newttd='';
     $scope.submitNewTtd = function() {

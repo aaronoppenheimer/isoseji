@@ -21,19 +21,19 @@ angular.module('ttdList', ['underscore'])
     };
 
     this.getttds = function() {
-        newlist = this.getchildren(0);
+        newlist = this.getchildren(0,1);
         return newlist;
     }
 
-    this.getchildren = function(n) {
+    this.getchildren = function(parent, level) {
         var newlist=[]
-        if (_.isUndefined(this.ttds[n])) {
+        if (_.isUndefined(this.ttds[parent])) {
             return newlist;
         } else {
-            var list = this.ttds[n];
+            var list = this.ttds[parent];
             for (var i=0; i<list.length; i++) {
-                newlist.push(list[i]);
-                newlist = newlist.concat(this.getchildren(list[i].id));
+                newlist.push([list[i],level]);
+                newlist = newlist.concat(this.getchildren(list[i].id, level + 1));
             }
         }
         return newlist;

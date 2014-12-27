@@ -6,18 +6,11 @@
 
 isosejiApp.controller('TtdDisplayController', ['$scope', 'ttdList', function($scope, ttdList) {
 
-    this.dispTtdList={};
+    this.isSelected=false;
     this.curParent=0;
 
     this.toggle = function(ttd) {
-        this.dispTtdList[ttd.id]=!this.dispTtdList[ttd.id];
-    };
-    
-    this.isSelected = function(ttd) {
-        if (_.isUndefined(this.dispTtdList[ttd.id])) {
-            this.dispTtdList[ttd.id]=false;
-        }
-        return this.dispTtdList[ttd.id];
+        this.isSelected = !this.isSelected;
     };
     
     this.updateParent = function(ttd) {

@@ -51,17 +51,21 @@
                             </form>
                         </div>
                     </div>
-                    
+
                     <table class="table table-striped" >
-                        <tr ng-repeat="ttd in ttds" ng-controller="TtdDisplayController as dispctl" ng-init="dispctl.curParent=ttd.parent"> 
-                            <td ng-if="dispctl.isSelected(ttd)==false">
-                                <span class="glyphicon glyphicon-plus" aria-hidden="true" ng-click="dispctl.toggle(ttd)"></span>{{ ttd.title }}
-                            </td>
-                            <td ng-if="dispctl.isSelected(ttd)==true">
-                                <span class="glyphicon glyphicon-minus" aria-hidden="true" ng-click="dispctl.toggle(ttd)"></span>
-                                    <a href="#" editable-text="ttd.title">{{ ttd.title || "empty" }}</a>
-                                    <a href="#" editable-number="dispctl.curParent" onaftersave="dispctl.updateParent(ttd)">{{ ttd.parent }}</a>
-                                    (id:{{ttd.id}}, p:{{ttd.parent}})
+                        <tr ng-repeat="ttd in ttds" ng-controller="TtdDisplayController as dispctl" ng-init="dispctl.curParent=ttd[0].parent"> 
+                            <td>
+                                <div ng-if="dispctl.isSelected==false">
+                                    <span ng-repeat="n in _.range(1,ttd[1])">&nbsp;&nbsp;</span>
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true" ng-click="dispctl.toggle(ttd[0])"></span>{{ ttd[0].title }}
+                                </div>
+                                <div ng-if="dispctl.isSelected==true">
+                                    <span ng-repeat="n in _.range(1,ttd[1])">&nbsp;&nbsp;</span>
+                                    <span class="glyphicon glyphicon-minus" aria-hidden="true" ng-click="dispctl.toggle(ttd[0])"></span>
+                                        <a href="#" editable-text="ttd[0].title">{{ ttd[0].title || "empty" }}</a>
+                                        parent: <a href="#" editable-number="dispctl.curParent" onaftersave="dispctl.updateParent(ttd[0])">{{ ttd[0].parent }}</a>
+                                        (id:{{ttd[0].id}}, level:{{ttd[1]}})
+                                </div>
                             </td>
                         </tr>
                     </table>
