@@ -8,31 +8,60 @@
 angular.module('ttdList', ['underscore'])
 .service('ttdList', function(_) {
 
-    this.ttds=[];
+    this.ttds={};
+    this.ttdcount = 0;
 
-    for (var i=1; i<=10; i++) {
-        this.ttds.push({id: i, title: 'test '+i, parent:0, isOpen:false});
+    this.initialize = function() {
+        var tmp = []
+        for (var i=1; i<=10; i++) {
+            tmp.push({id: i, title: 'test '+i, parent:0});
+        };
+        this.ttds = {0: tmp}
+        this.ttdcount = 10;
+    };
+
+    this.getttds = function() {
+        newlist = this.getchildren(0);
+        return newlist;
     }
 
-    this.submit = function(newttd) {
-
-        function reorder(t, p) {
-            var newttds = [];
-            for (var i=0; i<t.ttds.length; i++) {
-                if (t.ttds[i].parent == p) {
-                    newttds.push(t.ttds[i]);
-                    var newlist = reorder(t, t.ttds[i].id);
-                    newttds = newttds.concat(newlist);
-                }
+    this.getchildren = function(n) {
+        var newlist=[]
+        if (_.isUndefined(this.ttds[n])) {
+            return newlist;
+        } else {
+            var list = this.ttds[n];
+            for (var i=0; i<list.length; i++) {
+                newlist.push(list[i]);
+                newlist = newlist.concat(this.getchildren(list[i].id));
             }
-            return newttds;
         }
+        return newlist;
+    };
 
+    // add a new thing to do from a passed-in title
+    this.submit = function(newttd) {
         if (newttd) {
-            var newobj={id:this.ttds.length+1, title:newttd, parent:2, isOpen:true};
-            this.ttds.push(newobj);
-            this.ttds=reorder(this, 0);
+            var newobj={id:this.ttdcount+1, title:newttd, parent:-1};
+            this.move(newobj, Math.round(Math.random()*10));
+            this.ttdcount += 1;
         }
     };
     
+    // take a ttd and migrate it to a new parent. If it has an old parent, remove it from
+    // its list of children.
+    this.move = function(ttd, newparent) {
+        if (ttd.parent >= 0 ) {
+            // do something
+        }
+        // move it to a new parent
+        ttd.parent = newparent;
+        if (_.isUndefined(this.ttds[newparent])) {
+            this.ttds[newparent]=[ttd];
+        } else {
+            this.ttds[newparent].push(ttd);
+        }
+    }
+    
+   this.initialize();
 });

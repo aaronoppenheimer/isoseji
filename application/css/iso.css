@@ -1,6 +1,9 @@
 /* Sticky footer styles
 -------------------------------------------------- */
 
+/* required for angular-ui */
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
 html,
 body {
   padding-top: 20px;

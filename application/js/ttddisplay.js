@@ -4,10 +4,18 @@
 // ao 18dec14
 //
 
-isosejiApp.controller('TtdDisplayController', [ function() {
+isosejiApp.controller('TtdDisplayController', [function() {
+
+    this.dispTtdList={}
 
     this.toggle = function(ttd) {
-        ttd.isOpen=!ttd.isOpen;
+        this.dispTtdList[ttd.id]=!this.dispTtdList[ttd.id];
     };
-
+    
+    this.isSelected = function(ttd) {
+        if (_.isUndefined(this.dispTtdList[ttd.id])) {
+            this.dispTtdList[ttd.id]=false;
+        }
+        return this.dispTtdList[ttd.id];
+    }
 }]);
