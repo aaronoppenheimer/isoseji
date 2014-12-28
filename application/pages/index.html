@@ -52,17 +52,28 @@
                         </div>
                     </div>
 
-                    <div class="row" ng-repeat="ttd in ttds" draggable droppable drop="handleDrop" id="item{{ ttd[0].id }}" ng-controller="TtdDisplayController as dispctl" ng-init="dispctl.curParent=ttd[0].parent"> 
-                        <div class="col-md-12" ng-if="dispctl.isSelected==false">
-                            <span ng-repeat="n in _.range(1,ttd[1])">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                            <span class="glyphicon glyphicon-plus" aria-hidden="true" ng-click="dispctl.toggle(ttd[0])"></span>{{ ttd[0].title }}
+                    <div ng-repeat="ttd in ttds">
+                        <div  draggable droppable drop="handleDrop" id="item{{ ttd[0].id }}" ng-controller="TtdDisplayController as dispctl" ng-init="dispctl.curParent=ttd[0].parent">
+                            <div class="row" ng-if="dispctl.isSelected==false"> 
+                                <div class="col-md-12">
+                                    <span ng-repeat="n in _.range(1,ttd[1])">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true" ng-click="dispctl.toggle(ttd[0])"></span>{{ ttd[0].title }}
+                                </div>
+                            </div>
+                            <div class="row" ng-if="dispctl.isSelected==true"> 
+                                <div class="col-md-12">
+                                    <span ng-repeat="n in _.range(1,ttd[1])">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                    <span class="glyphicon glyphicon-minus" aria-hidden="true" ng-click="dispctl.toggle(ttd[0])"></span>
+                                        <a href="#" editable-text="ttd[0].title">{{ ttd[0].title || "empty" }}</a>
+                                        parent: <a href="#" editable-number="dispctl.curParent" onaftersave="dispctl.updateParent(ttd[0])">{{ ttd[0].parent }}</a>
+                                        (id:{{ttd[0].id}}, level:{{ttd[1]}})
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-md-12"  ng-if="dispctl.isSelected==true">
-                            <span ng-repeat="n in _.range(1,ttd[1])">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                            <span class="glyphicon glyphicon-minus" aria-hidden="true" ng-click="dispctl.toggle(ttd[0])"></span>
-                                <a href="#" editable-text="ttd[0].title">{{ ttd[0].title || "empty" }}</a>
-                                parent: <a href="#" editable-number="dispctl.curParent" onaftersave="dispctl.updateParent(ttd[0])">{{ ttd[0].parent }}</a>
-                                (id:{{ttd[0].id}}, level:{{ttd[1]}})
+                        <div class="row" droppable drop="handleDrop" id="post{{ ttd[0].id }}" > 
+                            <div class="col-md-12">
+                                &nbsp;
+                            </div>
                         </div>
                     </div>
                 </div><!-- /.inner-container -->

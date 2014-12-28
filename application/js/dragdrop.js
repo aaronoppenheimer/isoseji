@@ -1,4 +1,8 @@
-
+// 
+// drag & drop
+//
+// based on http://blog.parkji.co.uk/2013/08/11/native-drag-and-drop-in-angularjs.html
+//
 
 isosejiApp.directive('draggable', function() {
   return function(scope, element) {
@@ -96,8 +100,3 @@ isosejiApp.directive('droppable', function() {
   }
 });
 
-// isosejiApp.controller('DragDropCtrl', function($scope) {
-//   $scope.handleDrop = function(item, bin) {
-//     alert('Item ' + item + ' has been dropped into ' + bin);
-//   }
-// });

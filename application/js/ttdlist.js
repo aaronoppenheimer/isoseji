@@ -50,29 +50,49 @@ angular.module('ttdList', ['underscore'])
     
     // take a ttd and migrate it to a new parent. If it has an old parent, remove it from
     // its list of children.
-    this.moveParent = function(ttd, newparent) {
+    this.moveParent = function(ttd, newparent, newpos) {
         if (newparent == ttd.id) {
             return;
         } else {
-            if (ttd.parent >= 0 ) {
-                // remove from the list
-                this.ttds[ttd.parent] = _.without(this.ttds[ttd.parent], ttd);
-            }
+            this.ttds[ttd.parent] = _.without(this.ttds[ttd.parent], ttd);
             // move it to a new parent
             ttd.parent = newparent;
             if (_.isUndefined(this.ttds[newparent])) {
                 this.ttds[newparent]=[ttd];
             } else {
-                this.ttds[newparent].push(ttd);
+                var currentkids = this.ttds[newparent];
+                var newkids = [];
+                var done = false;
+                for (var i=0; i<currentkids.length; i++) {
+                    newkids.push(currentkids[i]);
+                    if (currentkids[i].id == newpos) {
+                        newkids.push(ttd);
+                        done = true;
+                    }
+                }
+                if (done == false) {
+                    newkids.push(ttd);
+                }
+                this.ttds[newparent]=newkids;
             }
         }
     }
 
-    // handle drag and drop. Find the ttd with the right item id, and make it's parent the new parent
-    this.dragDrop = function(itemid, newparent) {
+    // Handle drag and drop to a new parent. Find the ttd with the right item id, and make it's parent the new parent
+    this.dragDropReparent = function(itemid, newparent) {
         linearlist = this.getttds(); // ew, don't recalculate every time.
         ttd = _.find(linearlist, function(t) { return t[0].id == itemid; });
-        this.moveParent(ttd[0], newparent);
+        this.moveParent(ttd[0], newparent, -1);
+    }
+    
+    // Handle drag and drop to a new position. Find the ttd with the right item id, and make it's parent the new parent
+    // and insert us into the right place.
+    this.dragDropAfter = function(itemid, newpos) {
+        linearlist = this.getttds(); // ew, don't recalculate every time.
+        ttd = _.find(linearlist, function(t) { return t[0].id == itemid; })[0];
+        newneighbor = _.find(linearlist, function(t) { return t[0].id == newpos; });
+        newparent = newneighbor[0].parent;
+        this.moveParent(ttd, newparent, newpos);
     }
     
    this.initialize();
