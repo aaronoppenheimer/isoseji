@@ -22,11 +22,7 @@ angular.module('ttdList', ['underscore'])
         this.updateDisplayTtds();
     };
 
-//     this.getttds = function() {
-//         newlist = this.getchildren(0,1);
-//         return newlist;
-//     }
-
+    // update the list of ttds to display (really, just put them into display order)
     this.updateDisplayTtds = function() {
         this.displayTtds = this.getchildren(0,1);
         console.log('updated');
@@ -92,7 +88,6 @@ angular.module('ttdList', ['underscore'])
         linearlist = this.displayTtds; // ew, don't recalculate every time.
         ttd = _.find(linearlist, function(t) { return t[0].id == itemid; });
         this.moveParent(ttd[0], newparent, -1);
-        this.updateDisplayTtds();
     }
     
     // Handle drag and drop to a new position. Find the ttd with the right item id, and make it's parent the new parent
@@ -103,7 +98,6 @@ angular.module('ttdList', ['underscore'])
         newneighbor = _.find(linearlist, function(t) { return t[0].id == newpos; });
         newparent = newneighbor[0].parent;
         this.moveParent(ttd, newparent, newpos);
-        this.updateDisplayTtds();
     }
     
    this.initialize();
