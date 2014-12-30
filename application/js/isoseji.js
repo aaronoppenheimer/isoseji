@@ -8,31 +8,6 @@ var isosejiApp = angular.module('isosejiApp', ['ttdList', 'ui.bootstrap', 'xedit
 isosejiApp.controller('TtdController', ['$scope', 'ttdList', function($scope, ttdList) {
 
     $scope._ = _;
-
-    $scope.newttd='';
-    $scope.submitNewTtd = function() {
-        ttdList.submit($scope.newttd);
-        $scope.newttd='';
-        $scope.ttds = ttdList.getttds();    
-    };
-    
-    $scope.ttds = ttdList.getttds();
-    
-    $scope.updateList = function() {
-        $scope.ttds = ttdList.getttds();    
-    };
-
-    $scope.handleDrop = function(item, bin) {
-        itemid = item.substring(4);
-        newparent = bin.substring(4);
-        if (bin.substring(0,4)=="item") {
-            ttdList.dragDropReparent(itemid, newparent);
-        } else {
-            ttdList.dragDropAfter(itemid, newparent);
-        }
-        $scope.ttds = ttdList.getttds();    
-    }    
-    
 }]);
 
 isosejiApp.run(function(editableOptions) {

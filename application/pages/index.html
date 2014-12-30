@@ -43,39 +43,42 @@
             </div> <!-- .navbar -->            
 
             <div class="container">
-                <div class="inner-container" ng-controller="TtdController">
-                    <div class="row" style="padding-top: 5px; padding-bottom: 5px;">
-                        <div class="col-md-12">
-                            <form novalidate ng-submit="submitNewTtd()">
-                                Thing: <input type="text" ng-model="newttd" placeholder="What needs to be done?" name="newttd">
-                            </form>
-                        </div>
-                    </div>
-
-                    <div ng-repeat="ttd in ttds">
-                        <div  draggable droppable drop="handleDrop" id="item{{ ttd[0].id }}" ng-controller="TtdDisplayController as dispctl" ng-init="dispctl.curParent=ttd[0].parent">
-                            <div class="row" ng-if="dispctl.isSelected==false"> 
-                                <div class="col-md-12">
-                                    <span ng-repeat="n in _.range(1,ttd[1])">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                    <span class="glyphicon glyphicon-plus" aria-hidden="true" ng-click="dispctl.toggle(ttd[0])"></span>{{ ttd[0].title }}
-                                </div>
-                            </div>
-                            <div class="row" ng-if="dispctl.isSelected==true"> 
-                                <div class="col-md-12">
-                                    <span ng-repeat="n in _.range(1,ttd[1])">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                    <span class="glyphicon glyphicon-minus" aria-hidden="true" ng-click="dispctl.toggle(ttd[0])"></span>
-                                        <a href="#" editable-text="ttd[0].title">{{ ttd[0].title || "empty" }}</a>
-                                        parent: <a href="#" editable-number="dispctl.curParent" onaftersave="dispctl.updateParent(ttd[0])">{{ ttd[0].parent }}</a>
-                                        (id:{{ttd[0].id}}, level:{{ttd[1]}})
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row" droppable drop="handleDrop" id="post{{ ttd[0].id }}" > 
+                <div class="inner-container">
+                    <div ng-controller="TtdNewInputController">
+                        <div class="row" style="padding-top: 5px; padding-bottom: 5px;">
                             <div class="col-md-12">
-                                &nbsp;
+                                <form novalidate ng-submit="submitNewTtd()">
+                                    Thing: <input type="text" ng-model="newttd" placeholder="What needs to be done?" name="newttd">
+                                </form>
                             </div>
                         </div>
                     </div>
+                    <div ng-controller="TtdListDisplayController">
+                        <div ng-repeat="ttd in ttdList.displayTtds">
+                            <div  draggable droppable drop="handleDrop" id="item{{ ttd[0].id }}" ng-controller="TtdDisplayController as dispctl" ng-init="dispctl.curParent=ttd[0].parent">
+                                <div class="row" ng-if="dispctl.isSelected==false"> 
+                                    <div class="col-md-12">
+                                        <span ng-repeat="n in _.range(1,ttd[1])">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                        <span class="glyphicon glyphicon-plus" aria-hidden="true" ng-click="dispctl.toggle(ttd[0])"></span>{{ ttd[0].title }}
+                                    </div>
+                                </div>
+                                <div class="row" ng-if="dispctl.isSelected==true"> 
+                                    <div class="col-md-12">
+                                        <span ng-repeat="n in _.range(1,ttd[1])">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                        <span class="glyphicon glyphicon-minus" aria-hidden="true" ng-click="dispctl.toggle(ttd[0])"></span>
+                                            <a href="#" editable-text="ttd[0].title">{{ ttd[0].title || "empty" }}</a>
+                                            parent: <a href="#" editable-number="dispctl.curParent" onaftersave="dispctl.updateParent(ttd[0])">{{ ttd[0].parent }}</a>
+                                            (id:{{ttd[0].id}}, level:{{ttd[1]}})
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" droppable drop="handleDrop" id="post{{ ttd[0].id }}" > 
+                                <div class="col-md-12">
+                                    &nbsp;
+                                </div>
+                            </div>
+                        </div>
+                    </div>                    
                 </div><!-- /.inner-container -->
             </div><!-- /.container -->
 
@@ -89,7 +92,7 @@
 
         <script src = "js/isoseji.js"></script>
         <script src = "js/ttdlist.js"></script>
-        <script src = "js/ttddisplay.js"></script>
+        <script src = "js/controllers.js"></script>
         <script src = "/lib/bower_components/underscore/underscore.js"></script>
         <script src = "/lib/bower_components/angular-xeditable/dist/js/xeditable.js"></script>
         <script src = "js/usservice.js"></script>

@@ -10,6 +10,7 @@ angular.module('ttdList', ['underscore'])
 
     this.ttds={};
     this.ttdcount = 0;
+    this.displayTtds = {};
 
     this.initialize = function() {
         var tmp = []
@@ -18,12 +19,18 @@ angular.module('ttdList', ['underscore'])
         };
         this.ttds = {0: tmp}
         this.ttdcount = 10;
+        this.updateDisplayTtds();
     };
 
-    this.getttds = function() {
-        newlist = this.getchildren(0,1);
-        return newlist;
-    }
+//     this.getttds = function() {
+//         newlist = this.getchildren(0,1);
+//         return newlist;
+//     }
+
+    this.updateDisplayTtds = function() {
+        this.displayTtds = this.getchildren(0,1);
+        console.log('updated');
+    };
 
     this.getchildren = function(parent, level) {
         var newlist=[]
@@ -45,6 +52,7 @@ angular.module('ttdList', ['underscore'])
             var newobj={id:this.ttdcount+1, title:newttd, parent:-1};
             this.moveParent(newobj, Math.round(Math.random()*10));
             this.ttdcount += 1;
+            this.updateDisplayTtds();
         }
     };
     
@@ -75,24 +83,27 @@ angular.module('ttdList', ['underscore'])
                 }
                 this.ttds[newparent]=newkids;
             }
+            this.updateDisplayTtds();
         }
     }
 
     // Handle drag and drop to a new parent. Find the ttd with the right item id, and make it's parent the new parent
     this.dragDropReparent = function(itemid, newparent) {
-        linearlist = this.getttds(); // ew, don't recalculate every time.
+        linearlist = this.displayTtds; // ew, don't recalculate every time.
         ttd = _.find(linearlist, function(t) { return t[0].id == itemid; });
         this.moveParent(ttd[0], newparent, -1);
+        this.updateDisplayTtds();
     }
     
     // Handle drag and drop to a new position. Find the ttd with the right item id, and make it's parent the new parent
     // and insert us into the right place.
     this.dragDropAfter = function(itemid, newpos) {
-        linearlist = this.getttds(); // ew, don't recalculate every time.
+        linearlist = this.displayTtds; // ew, don't recalculate every time.
         ttd = _.find(linearlist, function(t) { return t[0].id == itemid; })[0];
         newneighbor = _.find(linearlist, function(t) { return t[0].id == newpos; });
         newparent = newneighbor[0].parent;
         this.moveParent(ttd, newparent, newpos);
+        this.updateDisplayTtds();
     }
     
    this.initialize();
